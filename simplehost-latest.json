@@ -1,0 +1,13 @@
+{
+  "id": 387546947,
+  "version": "v0.9.3",
+  "title": "SimpleHost 0.9.3",
+  "notes": "# SimpleHost 0.9.3\n\n## Highlights\n\n- SimpleHost now finds the newest stable release automatically.\n- Updating keeps your installation location, servers, settings, and backups intact.\n- The installer clearly tells you when GitHub is unavailable and still lets you use SimpleHost.\n\n## Improvements & fixes\n\n- Existing installations with an empty update setting now use the official SimpleHost repository.\n- Install and launch preferences carry through the complete update flow.\n\n## Technical details\n\n- Every downloaded installer is verified against its matching SHA-256 release asset before it can run.\n- Release URLs are restricted to the configured GitHub repository and trusted GitHub download hosts.\n- Version checks prevent accidental downgrades and repeated installer handoffs.\n- Validation passed 132 automated tests plus a live GitHub release download and checksum verification.\n\nPublish as `v0.9.3`, mark Latest, and attach `SimpleHost-Setup-0.9.3.exe` plus `SimpleHost-Setup-0.9.3.exe.sha256`.\n\nUsers with the older 0.9.2 installer need to download this installer once to gain online setup checks. We recommend updating SimpleHost now. Application updates remain user-initiated so running servers are not interrupted without choosing to update.\n\nDownload: https://simplehost-windows.veyselcalisici.chatgpt.site/\n",
+  "publishedAt": "2026-09-12T11:19:47Z",
+  "size": 65793672,
+  "filename": "SimpleHost-Setup-0.9.3.exe",
+  "url": "https://github.com/EgyptianChicken/SimpleHost/releases/download/v0.9.3/SimpleHost-Setup-0.9.3.exe",
+  "sourceUrl": "https://github.com/EgyptianChicken/SimpleHost/releases/tag/v0.9.3",
+  "sha256": "5c422d401b5acc60771241274dba2dd2a3557b0aae191575f45fc1db61c23ee5",
+  "windows": null
+}
