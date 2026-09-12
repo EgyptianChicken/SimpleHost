@@ -1,0 +1,70 @@
+name: Announce stable release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  announce:
+    if: ${{ !github.event.release.prerelease && !github.event.release.draft }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send concise Discord update log
+        env:
+          DISCORD_RELEASE_WEBHOOK: ${{ secrets.DISCORD_RELEASE_WEBHOOK }}
+          DOWNLOAD_URL: https://simplehost-windows.veyselcalisici.chatgpt.site/
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, os, re, urllib.request
+
+          with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as stream:
+              release = json.load(stream)["release"]
+
+          aliases = {
+              "highlights": "highlights", "what's new": "highlights", "whats new": "highlights",
+              "improvements": "improvements", "improvements & fixes": "improvements", "fixes": "improvements",
+              "technical details": "technical", "technical notes": "technical", "under the hood": "technical",
+          }
+          sections = {"highlights": [], "improvements": [], "technical": []}
+          current = None
+          for line in (release.get("body") or "").splitlines():
+              heading = re.match(r"^#{2,3}\s+(.+?)\s*$", line)
+              if heading:
+                  current = aliases.get(heading.group(1).strip().lower())
+                  continue
+              bullet = re.match(r"^\s*[-*+]\s+(.+)", line)
+              if bullet and current and len(sections[current]) < 5:
+                  sections[current].append(re.sub(r"\s+", " ", bullet.group(1)).strip()[:240])
+
+          sections["highlights"] = sections["highlights"] or ["A new SimpleHost update is ready to make hosting easier."]
+          sections["technical"] = sections["technical"] or ["Full implementation notes are available on the GitHub release page."]
+          labels = (("highlights", "✨ Best new stuff"), ("improvements", "🛠️ Improvements & fixes"),
+                    ("technical", "⚙️ Technical details"))
+          fields = [{"name": label, "value": "\n".join("• " + item for item in sections[key])[:1024], "inline": False}
+                    for key, label in labels if sections[key]]
+          version = str(release["tag_name"]).removeprefix("v")
+          fields.append({"name": "Ready to update?",
+                         "value": f"[Download SimpleHost {version}]({os.environ['DOWNLOAD_URL']})", "inline": False})
+          payload = {
+              "username": "SimpleHost Releases", "allowed_mentions": {"parse": []},
+              "embeds": [{
+                  "title": f"SimpleHost {version} is available", "url": release["html_url"],
+                  "description": "A new SimpleHost update is ready. We recommend updating now for the newest features, fixes, and hosting improvements.",
+                  "color": 0x0797FF, "fields": fields,
+                  "footer": {"text": "SimpleHost • Your worlds. Your people. One place."},
+                  "timestamp": release.get("published_at"),
+              }],
+          }
+          webhook = os.environ.get("DISCORD_RELEASE_WEBHOOK", "")
+          if not webhook.startswith("https://discord.com/api/webhooks/"):
+              raise SystemExit("DISCORD_RELEASE_WEBHOOK is missing or invalid")
+          request = urllib.request.Request(webhook, data=json.dumps(payload).encode(), method="POST",
+                                           headers={"Content-Type": "application/json", "User-Agent": "SimpleHost-Release-Bot"})
+          with urllib.request.urlopen(request, timeout=20) as response:
+              if response.status not in (200, 204):
+                  raise SystemExit(f"Discord returned HTTP {response.status}")
+          PY
