@@ -1,4 +1,6 @@
 {
+  "releases": [
+  {
   "id": 387546947,
   "version": "v0.9.3",
   "title": "SimpleHost 0.9.3",
@@ -10,4 +12,19 @@
   "sourceUrl": "https://github.com/EgyptianChicken/SimpleHost/releases/tag/v0.9.3",
   "sha256": "5c422d401b5acc60771241274dba2dd2a3557b0aae191575f45fc1db61c23ee5",
   "windows": null
+  },
+  {
+  "id": 387493850,
+  "version": "v0.9.2",
+  "title": "SimpleHost 0.9.2",
+  "notes": "# SimpleHost 0.9.2\n\nSimpleHost is a free Windows app for creating and managing game servers on your own PC through a browser-based dashboard.\n\n## Included in this release\n\n- Game Library support for Minecraft Java, Terraria, Valheim, Rust, 7 Days to Die, and Palworld.\n- Server start, stop, restart, live console, settings, and storage controls.\n- Backups, restore points, server cloning, and recovery tools.\n- File management, Modrinth integration for supported Minecraft setups, schedules, and connection guidance.\n- Guided Windows installer with installation-folder selection and relocation support.\n- Existing installations at the same or a newer version open without reinstalling.\n- Existing server data, settings, and backups remain in their selected data location during application updates.\n\n## Hosting model\n\nServers run locally on your Windows PC. SimpleHost does not provide cloud hosting, so the PC must remain on and connected while hosting. Internet connections can require Windows Firewall approval, router configuration, or manual port forwarding depending on the network.\n\n## Current boundaries\n\nSteam-based adapters remain experimental, and readiness or graceful shutdown behavior can vary by game. Public internet reachability is not guaranteed by a local port check or router mapping. The current installer is unsigned and has not undergone release-signing or antivirus certification.\n\nEvery SimpleHost feature is included without subscriptions, paid tiers, or feature paywalls.\n",
+  "publishedAt": "2026-09-12T07:40:31Z",
+  "size": 65780395,
+  "filename": "SimpleHost-Setup-0.9.2.exe",
+  "url": "https://github.com/EgyptianChicken/SimpleHost/releases/download/v0.9.2/SimpleHost-Setup-0.9.2.exe",
+  "sourceUrl": "https://github.com/EgyptianChicken/SimpleHost/releases/tag/v0.9.2",
+  "sha256": "1dbc9880c05ec43167b1a37a8c6d443f8a94c9d653c51f77bd1a3ad23a52a099",
+  "windows": null
+  }
+  ]
 }

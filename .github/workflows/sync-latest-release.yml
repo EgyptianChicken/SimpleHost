@@ -21,36 +21,46 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           $ErrorActionPreference = 'Stop'
-          $release = gh api "repos/$env:GITHUB_REPOSITORY/releases/latest" | ConvertFrom-Json
-          if ($release.draft -or $release.prerelease) { throw 'The latest release is not stable.' }
+          $releaseRows = @(gh api "repos/$env:GITHUB_REPOSITORY/releases?per_page=100" | ConvertFrom-Json |
+            Where-Object { -not $_.draft -and -not $_.prerelease } |
+            Sort-Object { [datetime]$_.published_at } -Descending |
+            Select-Object -First 50)
+          if ($releaseRows.Count -eq 0) { throw 'No stable releases were found.' }
 
-          $installers = @($release.assets | Where-Object {
-            $_.name -match '^SimpleHost-Setup(?:-\d+\.\d+\.\d+(?:\.\d+)?)?\.exe$' -and $_.size -gt 0
-          })
-          if ($installers.Count -ne 1) { throw "Expected exactly one Windows installer, found $($installers.Count)." }
-          $installer = $installers[0]
-          $checksumAsset = $release.assets | Where-Object { $_.name -eq "$($installer.name).sha256" } | Select-Object -First 1
-          if (-not $checksumAsset) { throw 'The matching SHA-256 asset is missing.' }
+          $manifestRows = [System.Collections.Generic.List[object]]::new()
+          foreach ($release in $releaseRows) {
+            $installer = @($release.assets | Where-Object {
+              $_.name -match '^SimpleHost-Setup(?:-\d+\.\d+\.\d+(?:\.\d+)?)?\.exe$' -and $_.size -gt 0
+            } | Sort-Object { $_.name.Length } -Descending | Select-Object -First 1)
+            if ($installer.Count -eq 0) { continue }
+            $installer = $installer[0]
+            $checksumAsset = $release.assets | Where-Object { $_.name -eq "$($installer.name).sha256" } | Select-Object -First 1
+            if (-not $checksumAsset) { continue }
 
-          $checksumText = (Invoke-WebRequest -Uri $checksumAsset.browser_download_url).Content.Trim()
-          $escapedName = [regex]::Escape($installer.name)
-          $checksumMatch = [regex]::Match($checksumText, "(?m)^([a-fA-F0-9]{64})\s+\*?$escapedName\s*$")
-          if (-not $checksumMatch.Success) { throw 'The SHA-256 file does not match the installer.' }
+            $checksumText = (Invoke-WebRequest -Uri $checksumAsset.browser_download_url).Content.Trim()
+            $escapedName = [regex]::Escape($installer.name)
+            $checksumMatch = [regex]::Match($checksumText, "(?m)^([a-fA-F0-9]{64})\s+\*?$escapedName\s*$")
+            if (-not $checksumMatch.Success) { continue }
 
-          $manifest = [ordered]@{
-            id = [long]$release.id
-            version = [string]$release.tag_name
-            title = if ($release.name) { [string]$release.name } else { [string]$release.tag_name }
-            notes = [string]$release.body
-            publishedAt = [string]$release.published_at
-            size = [long]$installer.size
-            filename = [string]$installer.name
-            url = [string]$installer.browser_download_url
-            sourceUrl = [string]$release.html_url
-            sha256 = $checksumMatch.Groups[1].Value.ToLowerInvariant()
-            windows = $null
+            $manifestRows.Add([pscustomobject][ordered]@{
+              id = [long]$release.id
+              version = [string]$release.tag_name
+              title = if ($release.name) { [string]$release.name } else { [string]$release.tag_name }
+              notes = [string]$release.body
+              publishedAt = [string]$release.published_at
+              size = [long]$installer.size
+              filename = [string]$installer.name
+              url = [string]$installer.browser_download_url
+              sourceUrl = [string]$release.html_url
+              sha256 = $checksumMatch.Groups[1].Value.ToLowerInvariant()
+              windows = $null
+            })
           }
-          $manifest | ConvertTo-Json -Depth 4 | Set-Content -NoNewline -Encoding utf8 simplehost-latest.json
+          if ($manifestRows.Count -eq 0 -or $manifestRows[0].id -ne $releaseRows[0].id) {
+            throw 'The newest stable release is missing a valid installer or checksum.'
+          }
+          [ordered]@{ releases = @($manifestRows) } | ConvertTo-Json -Depth 5 |
+            Set-Content -NoNewline -Encoding utf8 simplehost-latest.json
 
       - name: Publish manifest update
         shell: bash
