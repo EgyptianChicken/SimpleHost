@@ -37,7 +37,13 @@ jobs:
             $checksumAsset = $release.assets | Where-Object { $_.name -eq "$($installer.name).sha256" } | Select-Object -First 1
             if (-not $checksumAsset) { continue }
 
-            $checksumText = (Invoke-WebRequest -Uri $checksumAsset.browser_download_url).Content.Trim()
+            $checksumResponse = Invoke-WebRequest -Uri $checksumAsset.browser_download_url
+            $checksumText = if ($checksumResponse.Content -is [byte[]]) {
+              [Text.Encoding]::UTF8.GetString($checksumResponse.Content)
+            } else {
+              [string]$checksumResponse.Content
+            }
+            $checksumText = $checksumText.Trim()
             $escapedName = [regex]::Escape($installer.name)
             $checksumMatch = [regex]::Match($checksumText, "(?m)^([a-fA-F0-9]{64})\s+\*?$escapedName\s*$")
             if (-not $checksumMatch.Success) { continue }
