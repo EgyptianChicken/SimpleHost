@@ -1,6 +1,19 @@
 {
   "releases": [
     {
+      "id": 387881937,
+      "version": "v0.10.1",
+      "title": "SimpleHost 0.10.1",
+      "notes": "# SimpleHost 0.10.1\n\n## Highlights\n\n- Network settings stay put while you type, toggle options, and save\u2014even while live host updates arrive.\n- Copy Full Invite lets friends on the same LAN pair directly when automatic discovery is unavailable.\n- See outgoing invitation status and clear instructions for owner approval and server permissions.\n\n## Improvements & fixes\n\n- Full invites and QR codes carry the host connection details; short codes remain supported.\n- Disabled access requests now explain how to enable invitations, and startup failures no longer show a working connection.\n- Unrelated settings saves no longer restart the networking service.\n- LAN hosting prefers an active home-network adapter over common VPN and virtual adapters.\n\n## Technical details\n\n- Direct invitations validate private LAN addresses and retain certificate-pinned HTTPS and owner approval.\n- Expired, revoked, or used invitations cannot grant new access; competing pending requests are declined after approval.\n- Network listener readiness and discovery thread shutdown are synchronized. Browser and real HTTPS pairing regressions cover the repaired flows.\n\nUpdate both PCs to 0.10.1 to use full invitations. Simple Host Network remains experimental and LAN-only.\n\nDownload: https://simplehost-windows.veyselcalisici.chatgpt.site/\n",
+      "publishedAt": "2026-09-13T11:43:59Z",
+      "size": 73188104,
+      "filename": "SimpleHost-Setup-0.10.1.exe",
+      "url": "https://github.com/EgyptianChicken/SimpleHost/releases/download/v0.10.1/SimpleHost-Setup-0.10.1.exe",
+      "sourceUrl": "https://github.com/EgyptianChicken/SimpleHost/releases/tag/v0.10.1",
+      "sha256": "ad611a7e091492458d7f7fdc3e7bd96ad9a2194c2fc0bd36b0a23e47671f33af",
+      "windows": null
+    },
+    {
       "id": 387546947,
       "version": "v0.9.3",
       "title": "SimpleHost 0.9.3",
