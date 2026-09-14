@@ -1,6 +1,19 @@
 {
   "releases": [
     {
+      "id": 388173210,
+      "version": "v0.11.0",
+      "title": "SimpleHost 0.11.0",
+      "notes": "# SimpleHost 0.11.0\n\n## Highlights\n- Invite friends on other networks to manage your approved servers through Internet Invite\u2014no management port forwarding.\n- Add VEIN, Empyrion - Galactic Survival, and ARK: Survival Evolved to the game library.\n- Configure ARK: Survival Ascended CurseForge mod IDs and ARK: Survival Evolved active mod order.\n\n## Improvements & fixes\n- Empyrion supports custom scenario selection and dedicated-server mod folders.\n- Non-Minecraft Mods tabs now show game-specific controls instead of an incompatible Modrinth search.\n- Internet invitations show connection status and retain owner approval and per-server permissions.\n\n## Technical details\n- Internet management uses an opt-in Cloudflare Quick Tunnel and encrypted ECDH/AES-GCM request envelopes, replay checks, and existing endpoint authorization. The verified Windows connector downloads on first use.\n- Keep SimpleHost open. Quick Tunnel addresses change after restart; send a fresh Internet Invite to reconnect. These are experimental sessions, not a permanent relay service or game-traffic tunnel.\n- New game adapters have configuration and launch-command regression coverage; full gameplay and third-party mod compatibility have not been verified. VEIN has no automatic mod installer.\n\nUpdate both PCs to use Internet Invite. Enable Simple Host Network and Internet invitations, wait for Internet ready, then copy the full invitation to your friend.\n\nDownload: https://simplehost-windows.veyselcalisici.chatgpt.site/\n",
+      "publishedAt": "2026-09-14T05:55:02Z",
+      "size": 73207535,
+      "filename": "SimpleHost-Setup-0.11.0.exe",
+      "url": "https://github.com/EgyptianChicken/SimpleHost/releases/download/v0.11.0/SimpleHost-Setup-0.11.0.exe",
+      "sourceUrl": "https://github.com/EgyptianChicken/SimpleHost/releases/tag/v0.11.0",
+      "sha256": "c9d6bd7636572d110f64ccee3acd0db778938792a537b44a26de4deb37040794",
+      "windows": null
+    },
+    {
       "id": 387881937,
       "version": "v0.10.1",
       "title": "SimpleHost 0.10.1",
