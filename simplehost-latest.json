@@ -1,6 +1,19 @@
 {
   "releases": [
     {
+      "id": 388214765,
+      "version": "v0.13.0",
+      "title": "SimpleHost 0.13.0",
+      "notes": "# SimpleHost 0.13.0\n\n## Highlights\n- A bright update banner now appears at the top of the local control panel whenever a new SimpleHost build is ready.\n- Install an update in one click and watch the refreshed control panel reopen automatically when setup finishes.\n- Keep compatible game servers online while the SimpleHost app updates, so active worlds can carry on without interruption.\n\n## Improvements & fixes\n- See exactly how many running servers can stay online and which ones need a safe restart before accepting an update.\n- Let SimpleHost download and verify the GitHub release, close its control processes, launch setup, and return to the browser panel for you.\n- Servers with consoles that cannot be detached safely are stopped cleanly and started again after installation.\n- The Settings update action now uses the same guided installation flow as the new banner.\n\n## Technical details\n- Verified installers receive a guarded update handoff token before requesting the local app shutdown; ordinary shutdown requests cannot preserve child processes.\n- Compatible processes are recorded with PID, creation time, executable path, and server state, then validated before the new app reattaches to them.\n- The Windows process job drops kill-on-close only for the verified update handoff. Direct console input for a preserved process returns after that server is restarted.\n- WinPTY-backed and in-progress server tasks are classified for safe restart because their live console transport cannot survive the app process exit.\n\nWe recommend updating SimpleHost to get the smoother update flow and keep compatible servers online while the app refreshes.\n\nDownload the latest version: https://simplehost-windows.veyselcalisici.chatgpt.site/\n",
+      "publishedAt": "2026-09-14T07:36:06Z",
+      "size": 73226158,
+      "filename": "SimpleHost-Setup-0.13.0.exe",
+      "url": "https://github.com/EgyptianChicken/SimpleHost/releases/download/v0.13.0/SimpleHost-Setup-0.13.0.exe",
+      "sourceUrl": "https://github.com/EgyptianChicken/SimpleHost/releases/tag/v0.13.0",
+      "sha256": "a0ad7cb8e05f6d4b729d0531a01c9e54335ad436fd5d0b4561d6ff9bb497dc21",
+      "windows": null
+    },
+    {
       "id": 388189940,
       "version": "v0.12.0",
       "title": "SimpleHost 0.12.0",
