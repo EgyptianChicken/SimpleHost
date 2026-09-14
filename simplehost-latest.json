@@ -1,6 +1,19 @@
 {
   "releases": [
     {
+      "id": 388189940,
+      "version": "v0.12.0",
+      "title": "SimpleHost 0.12.0",
+      "notes": "# SimpleHost 0.12.0\n\n## Highlights\n- Meet the new Network Setup Wizard: one scan shows what is ready, what is broken, and the exact next fix.\n- Fix common hosting problems directly from the report\u2014start the server, add scoped firewall rules, retry automatic router setup, or open Internet Invite settings.\n- Spot likely CGNAT and double NAT without guessing by comparing the router WAN address with the public IPv4 address.\n\n## Improvements & fixes\n- Check the active network adapter, home-router gateway, running game process, listening game ports, exact Windows Firewall rules, router mappings, CGNAT clues, and Internet Invite readiness.\n- Follow focused guided pages for port forwarding, firewall setup, upstream-network issues, remote management, and the final friend connection test.\n- See the exact local and public ports to enter in a router, including automatically selected public ports when the default is occupied.\n- Clearly distinguish Internet Invites for SimpleHost management from the game connection players use.\n\n## Technical details\n- Firewall inspection is read-only and verifies each SimpleHost rule's enabled state, inbound direction, allow action, Private profile, protocol, and local port.\n- Router WAN discovery reads UPnP status without changing router settings. Existing UPnP, PCP, or NAT-PMP leases provide mapping confirmation.\n- A router-confirmed mapping cannot prove end-to-end internet reachability. The wizard says when a check is unknown and reserves final confirmation for a friend joining from another network.\n- SimpleHost never asks for the router password, enables DMZ, disables a firewall, or forwards management and RCON ports.\n\nWe recommend updating SimpleHost now, then opening any server and selecting **Get Friends Connected** to run the new scan.\n\nDownload: https://simplehost-windows.veyselcalisici.chatgpt.site/\n",
+      "publishedAt": "2026-09-14T06:40:54Z",
+      "size": 73217648,
+      "filename": "SimpleHost-Setup-0.12.0.exe",
+      "url": "https://github.com/EgyptianChicken/SimpleHost/releases/download/v0.12.0/SimpleHost-Setup-0.12.0.exe",
+      "sourceUrl": "https://github.com/EgyptianChicken/SimpleHost/releases/tag/v0.12.0",
+      "sha256": "1edf09b1f590fea6dbe1d5da28d788ae474e7382b9781a5b20b3801d3a895b11",
+      "windows": null
+    },
+    {
       "id": 388173210,
       "version": "v0.11.0",
       "title": "SimpleHost 0.11.0",
